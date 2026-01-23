@@ -1,8 +1,9 @@
 {
     "title": "QRScout",
     "page_title": "Rebuilt",
+    "defaultTheme": "dark",
     "delimiter": "\t",
-    "teamNumber": 2713,
+    "teamNumber": 6672,
     "floatingField": {
         "show": false,
         "codeValue": "teamNumber"
