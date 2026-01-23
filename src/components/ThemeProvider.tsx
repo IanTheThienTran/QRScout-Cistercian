@@ -1,11 +1,10 @@
-import { useQRScoutState } from '@/store/store';
-import { setColorScheme } from '@/util/theme';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import configJson from '../config/config.json'; // adjust path to your config.json
 
 export type Theme = 'dark' | 'light' | 'system';
 
 type ThemeProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
 };
@@ -15,73 +14,74 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void;
 };
 
-const initialState: ThemeProviderState = {
+// initial context
+const ThemeProviderContext = createContext<ThemeProviderState>({
   theme: 'system',
   setTheme: () => null,
-};
+});
 
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+// helper to apply theme colors from config.json
+function applyThemeColors(themeObj: Record<string, string>) {
+  const root = document.documentElement;
+  Object.entries(themeObj).forEach(([key, value]) => {
+    root.style.setProperty(`--${key}`, value);
+  });
+}
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'system',
+  defaultTheme = configJson.defaultTheme || 'dark',
   storageKey = 'vite-ui-theme',
-  ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
-  );
+  // use localStorage if available, else fallback to defaultTheme
+  const [theme, setThemeState] = useState<Theme>(() => {
+    const stored = localStorage.getItem(storageKey) as Theme | null;
+    if (stored) return stored;
+    return defaultTheme;
+  });
+
   const [resolvedTheme, setResolvedTheme] = useState<Theme>(theme);
 
-  const appTheme = useQRScoutState(state => state.formData.theme);
-
+  // apply colors whenever resolvedTheme changes
   useEffect(() => {
-    if (!appTheme || !appTheme.light || !appTheme.dark) return;
-    if (resolvedTheme === 'dark') {
-      setColorScheme(appTheme.dark);
-    } else {
-      setColorScheme(appTheme.light);
-    }
-  }, [resolvedTheme, appTheme]);
+    const themeObj =
+      resolvedTheme === 'dark' ? configJson.theme.dark : configJson.theme.light;
+    applyThemeColors(themeObj);
+  }, [resolvedTheme]);
 
+  // update resolvedTheme and <html> class
   useEffect(() => {
-    const root = window.document.documentElement;
+    const root = document.documentElement;
     root.classList.remove('light', 'dark');
 
     if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light';
       setResolvedTheme(systemTheme);
       root.classList.add(systemTheme);
-      return;
+    } else {
+      setResolvedTheme(theme);
+      root.classList.add(theme);
     }
-
-    setResolvedTheme(theme);
-    root.classList.add(theme);
   }, [theme]);
 
-  const value = {
-    theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme);
-      setTheme(theme);
-    },
+  // setter that syncs with localStorage
+  const setTheme = (newTheme: Theme) => {
+    localStorage.setItem(storageKey, newTheme);
+    setThemeState(newTheme);
   };
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeProviderContext.Provider>
   );
 }
 
+// hook to access theme anywhere
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
-
-  if (context === undefined)
-    throw new Error('useTheme must be used within a ThemeProvider');
-
+  if (!context) throw new Error('useTheme must be used within a ThemeProvider');
   return context;
 };
