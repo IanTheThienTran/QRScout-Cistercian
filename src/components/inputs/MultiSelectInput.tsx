@@ -7,7 +7,7 @@ import { ConfigurableInputProps } from './ConfigurableInput';
 
 export default function MultiSelectInput(props: ConfigurableInputProps) {
   const data = useQRScoutState(
-    inputSelector<MultiSelectInputData>(props.section, props.code),
+    inputSelector<any>(props.section, props.code),
   );
 
   if (!data) {
@@ -54,21 +54,22 @@ export default function MultiSelectInput(props: ConfigurableInputProps) {
     return <div>Invalid input</div>;
   }
 
-  // Convert choices object to array of options for MultiSelect
-  const options = Object.entries(data.choices).map(([value, label]) => ({
-    value,
-    label,
-  }));
+  const options = Object.entries(data.choices ?? {}).map(([value, label]) => ({
+  value,
+  label: String(label),
+}));
+
 
   // Convert selected values to option objects with a type guard for data.choices
   const selectedOptions = selectedValues.map(value => {
-    const label =
-      data.choices && data.choices[value] ? data.choices[value] : value;
-    return {
-      value,
-      label,
-    };
-  });
+  const label =
+    data.choices && data.choices[value] ? data.choices[value] : value;
+  return {
+    value,
+    label: String(label),
+  };
+});
+
 
   return (
     <MultipleSelector

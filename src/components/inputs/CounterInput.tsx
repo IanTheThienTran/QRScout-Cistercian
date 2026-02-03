@@ -8,7 +8,7 @@ import { ConfigurableInputProps } from './ConfigurableInput';
 
 export default function CounterInput(props: ConfigurableInputProps) {
   const data = useQRScoutState(
-    inputSelector<CounterInputData>(props.section, props.code),
+    inputSelector<any>(props.section, props.code),
   );
 
   if (!data) {

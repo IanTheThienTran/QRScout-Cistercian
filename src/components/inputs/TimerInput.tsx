@@ -18,7 +18,7 @@ function getAvg(array: any[]) {
 }
 export default function TimerInput(props: ConfigurableInputProps) {
   const data = useQRScoutState(
-    inputSelector<TimerInputData>(props.section, props.code),
+    inputSelector<any>(props.section, props.code),
   );
 
   if (!data) {

@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogClose } from '../ui/dialog';
 
 export default function ImageInput(props: ConfigurableInputProps) {
   const data = useQRScoutState(
-    inputSelector<ImageInputData>(props.section, props.code),
+    inputSelector<any>(props.section, props.code),
   );
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 

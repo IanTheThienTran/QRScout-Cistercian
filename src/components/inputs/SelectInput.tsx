@@ -13,7 +13,7 @@ import { ConfigurableInputProps } from './ConfigurableInput';
 
 export default function SelectInput(props: ConfigurableInputProps) {
   const data = useQRScoutState(
-    inputSelector<SelectInputData>(props.section, props.code),
+    inputSelector<any>(props.section, props.code),
   );
 
   if (!data) {

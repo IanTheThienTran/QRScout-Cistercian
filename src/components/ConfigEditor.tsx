@@ -9,6 +9,7 @@ import {
   resetToDefaultConfig,
   setConfig,
   useQRScoutState,
+  isError,
 } from '../store/store';
 import { Config } from './inputs/BaseInputProps';
 import {
@@ -95,11 +96,12 @@ export function ConfigEditor(props: ConfigEditorProps) {
       reader.onload = function (e) {
         const configText = e.target?.result as string;
         const result = setConfig(configText);
-        if (!result.success) {
-          setError(result.error.message);
-        } else {
-          setError(null);
-        }
+        if (isError(result)) {
+  setError(result.error.message);
+} else {
+  setError(null);
+}
+
       };
       if (evt.currentTarget.files && evt.currentTarget.files.length > 0) {
         reader.readAsText(evt.currentTarget.files[0]);
@@ -110,11 +112,12 @@ export function ConfigEditor(props: ConfigEditorProps) {
 
   const handleLoadFromURL = useCallback(async () => {
     const result = await fetchConfigFromURL(url);
-    if (!result.success) {
-      setError(result.error.message);
-    } else {
-      setError(null);
-    }
+    if (isError(result)) {
+  setError(result.error.message);
+} else {
+  setError(null);
+}
+
   }, [url]);
 
   return (

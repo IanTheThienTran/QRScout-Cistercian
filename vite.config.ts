@@ -1,15 +1,13 @@
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  base: '/QRScout/',
   plugins: [react()],
+  base: '/QRScout-Cistercian/',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, 'src'), // fixes "@/store/store" imports
     },
   },
-  assetsInclude: ['assets/**/*'],
-});
+})

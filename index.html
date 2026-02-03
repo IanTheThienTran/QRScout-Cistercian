@@ -2,33 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
       name="viewport"
       content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=2"
     />
-    <meta name="description" content="Description" />
-    <meta name="keywords" content="Keywords" />
+    <meta name="description" content="QR Scout - Cistercian" />
+    <meta name="keywords" content="QR Scout, Robotics, Scouting" />
     <title>QR Scout</title>
 
-    <link rel="manifest" href="/QRScout/manifest.json" />
-    <link
-      href="/QRScout/icons/favicon-16x16.png"
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-    />
-    <link
-      href="/QRScout/icons/favicon-32x32.png"
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-    />
-    <link rel="apple-touch-icon" href="/QRScout/apple-icon.png" />
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="apple-icon.png" />
+
+    <!-- Theme color -->
     <meta name="theme-color" content="#317EFB" />
   </head>
   <body>
     <div id="app"></div>
+
+    <!-- Vite will inject JS automatically -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
+</html>
+
 </html>

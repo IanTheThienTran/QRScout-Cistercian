@@ -12,24 +12,33 @@ import { runStatsigAutoCapture } from '@statsig/web-analytics';
 import { FloatingFormValue } from './components/FloatingFormValue';
 
 export function App() {
-  const { teamNumber, pageTitle } = useQRScoutState(state => ({
+  const loadConfig = useQRScoutState(state => state.loadConfig);
+  const { teamNumber, pageTitle, config } = useQRScoutState(state => ({
     teamNumber: state.formData.teamNumber,
     pageTitle: state.formData.page_title,
+    config: state.config,
   }));
+
   const { client } = useClientAsyncInit(
     import.meta.env.VITE_STATSIG_CLIENT_KEY,
-    {
-      userID: `${teamNumber}`,
-    },
+    { userID: `${teamNumber}` }
   );
+
+  // Load config.json once on mount
+  useEffect(() => {
+    loadConfig();
+  }, [loadConfig]);
 
   useEffect(() => {
     runStatsigAutoCapture(client);
   }, [client]);
 
+  // Only render ThemeProvider once config is loaded
+  if (!config || !config.theme) return <div>Loading config...</div>;
+
   return (
     <StatsigProvider client={client} loadingComponent={<div>Loading...</div>}>
-      <ThemeProvider>
+      <ThemeProvider defaultTheme={config.defaultTheme || 'system'}>
         <div className="min-h-screen py-2">
           <Header />
           <main className="flex flex-1 flex-col items-center justify-center px-4 text-center">
@@ -51,3 +60,4 @@ export function App() {
     </StatsigProvider>
   );
 }
+
