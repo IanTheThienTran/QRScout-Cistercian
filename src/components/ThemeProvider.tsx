@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import configJson from '../config/config.json'; // adjust path to your config.json
+import configJson from '../../config/config.json';
+
 
 export type Theme = 'dark' | 'light' | 'system';
 
@@ -30,7 +31,7 @@ function applyThemeColors(themeObj: Record<string, string>) {
 
 export function ThemeProvider({
   children,
-  defaultTheme = configJson.defaultTheme || 'dark',
+  defaultTheme = (configJson.defaultTheme as 'dark' | 'light' | 'system') || 'dark',
   storageKey = 'vite-ui-theme',
 }: ThemeProviderProps) {
   // use localStorage if available, else fallback to defaultTheme
