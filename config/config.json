@@ -35,32 +35,27 @@
             "chart_4": "43 74% 66%",
             "chart_5": "27 87% 67%"
         },
-        "dark": {
-            "background": "0 0% 0%",
-            "foreground": "0 0% 98%",
-            "card": "0 0% 0%",
-            "card_foreground": "0 0% 98%",
-            "popover": "0 0% 0%",
-            "popover_foreground": "0 0% 98%",
-            "primary": "100 100% 100%",
-            "primary_foreground": "0 85.7% 97.3%",
-            "secondary": "0 0% 14.9%",
-            "secondary_foreground": "0 0% 98%",
-            "muted": "0 0% 14.9%",
-            "muted_foreground": "0 0% 63.9%",
-            "accent": "0 0% 14.9%",
-            "accent_foreground": "0 0% 98%",
-            "destructive": "0 62.8% 30.6%",
-            "destructive_foreground": "0 0% 98%",
-            "border": "0 0% 15%",
-            "input": "0 0% 15%",
-            "ring": "0 0% 10%",
-            "chart_1": "220 70% 50%",
-            "chart_2": "160 60% 45%",
-            "chart_3": "30 80% 55%",
-            "chart_4": "280 65% 60%",
-            "chart_5": "340 75% 55%"
-        }
+       "dark": {
+  "background": "0 0% 0%",
+  "foreground": "0 0% 98%",
+
+  "card": "0 0% 0%",
+  "card_foreground": "0 0% 98%",
+
+  "primary": "0 0% 0%",
+  "primary_foreground": "0 0% 98%",
+
+  "secondary": "0 0% 10%",
+  "secondary_foreground": "0 0% 98%",
+
+  "accent": "0 0% 12%",
+  "accent_foreground": "0 0% 98%",
+
+  "border": "0 0% 15%",
+  "input": "0 0% 15%",
+  "ring": "0 0% 20%"
+}
+
     },
     "sections": [
         {
