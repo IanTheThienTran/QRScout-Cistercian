@@ -1,16 +1,16 @@
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 
 type SectionProps = {
-  children?: React.ReactNode;
-  title?: string;
-};
+  children?: React.ReactNode
+  title?: string
+}
 
 export function Section(props: SectionProps) {
   return (
-    <Card className="text-foreground">
+    <Card className="text-card-foreground">
       <CardHeader className="pb-2">
         {props.title && (
-          <CardTitle className="font-rhr-ns text-foreground">
+          <CardTitle className="font-rhr-ns text-card-foreground">
             {props.title}
           </CardTitle>
         )}
@@ -19,5 +19,5 @@ export function Section(props: SectionProps) {
         <div className="flex flex-col gap-4">{props.children}</div>
       </CardContent>
     </Card>
-  );
+  )
 }
