@@ -10,11 +10,7 @@ export function Header() {
       <title>QRScout | {page_title}</title>
 
       {/* Dark-mode aware favicon (SVG) */}
-      <link
-        rel="icon"
-        href="/QRScout/favicon.svg"
-        type="image/svg+xml"
-      />
+     <link rel="icon" href="/QRScout/favicon-v2.svg" type="image/svg+xml" />
     </Helmet>
   );
 }
