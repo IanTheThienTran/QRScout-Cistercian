@@ -10,7 +10,9 @@ export default function Logo(props: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 595.28 841.89"
     >
       <defs>
-        <style>{`.st0{fill:#fff;}`}</style>
+        <style>{`
+  .st0 { fill: currentColor; }
+`}</style>
       </defs>
 
       <path
