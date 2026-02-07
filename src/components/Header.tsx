@@ -1,12 +1,20 @@
-import { Helmet } from 'react-helmet';
-import { useQRScoutState } from '../store/store';
+import { Helmet } from "react-helmet";
+import { useQRScoutState } from "../store/store";
 
 export function Header() {
-  const page_title = useQRScoutState(state => state.formData.page_title);
+  const page_title = useQRScoutState((state) => state.formData.page_title);
+
   return (
     <Helmet>
+      {/* Browser tab title (browser handles dark/light automatically) */}
       <title>QRScout | {page_title}</title>
-      <link rel="icon" href="/QRScout/favicon.ico" />
+
+      {/* Dark-mode aware favicon (SVG) */}
+      <link
+        rel="icon"
+        href="/QRScout/favicon.svg"
+        type="image/svg+xml"
+      />
     </Helmet>
   );
 }
