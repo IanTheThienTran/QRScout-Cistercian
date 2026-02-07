@@ -15,26 +15,28 @@ const Slider = React.forwardRef<
     )}
     {...props}
   >
+    {/* Track */}
     <SliderPrimitive.Track
       className={cn(
         "relative h-1.5 w-full grow overflow-hidden rounded-full",
-        "bg-primary/20 dark:bg-primary/30"
+        "bg-muted"
       )}
     >
+      {/* Filled range */}
       <SliderPrimitive.Range
         className={cn(
           "absolute h-full",
-          "bg-primary dark:bg-primary-foreground"
+          "bg-primary"
         )}
       />
     </SliderPrimitive.Track>
 
+    {/* Thumb */}
     <SliderPrimitive.Thumb
       className={cn(
-        "block h-4 w-4 rounded-full border shadow transition-colors",
-        "bg-background border-primary/50",
-        "dark:bg-primary dark:border-primary-foreground/50",
-        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        "block h-4 w-4 rounded-full border shadow-sm transition-colors",
+        "bg-background border-border",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "disabled:pointer-events-none disabled:opacity-50"
       )}
     />
