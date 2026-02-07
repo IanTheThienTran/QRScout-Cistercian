@@ -7,10 +7,12 @@ type SectionProps = {
 
 export function Section(props: SectionProps) {
   return (
-    <Card>
-      <CardHeader>
+    <Card className="text-foreground">
+      <CardHeader className="pb-2">
         {props.title && (
-          <CardTitle className="font-rhr-ns">{props.title}</CardTitle>
+          <CardTitle className="font-rhr-ns text-foreground">
+            {props.title}
+          </CardTitle>
         )}
       </CardHeader>
       <CardContent className="p-2 pt-0">
