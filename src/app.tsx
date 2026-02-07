@@ -43,15 +43,8 @@ export function App() {
           <Header />
           <main className="flex flex-1 flex-col items-center justify-center px-4 text-center">
             <h1 className="font-sans text-6xl font-bold">
-             <div
-  style={{
-    color: "white",
-    backgroundColor: "red",
-    fontSize: "64px",
-    zIndex: 9999,
-  }}
->
-  Rebuilt
+             <div className="font-rhr text-black dark:text-white">
+  {pageTitle}
 </div>
             </h1>
             <FloatingFormValue />
