@@ -1,6 +1,6 @@
 import { useQRScoutState } from '@/store/store';
 import { Heart } from 'lucide-react';
-import { Logo } from './Logo';
+import Logo from './Logo';
 
 export function Footer() {
   const teamNumber = useQRScoutState(state => state.formData.teamNumber);
