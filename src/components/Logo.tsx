@@ -7,7 +7,7 @@ export default function Logo(props: React.SVGProps<SVGSVGElement>) {
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
-      viewBox="0 200 595.28 841.89"
+      viewBox="0 0 595.28 841.89"
     >
       <defs>
         <style>{`.st0{fill:#fff;}`}</style>
