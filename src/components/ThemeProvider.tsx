@@ -25,7 +25,8 @@ const ThemeProviderContext = createContext<ThemeProviderState>({
 function applyThemeColors(themeObj: Record<string, string>) {
   const root = document.documentElement;
   Object.entries(themeObj).forEach(([key, value]) => {
-    root.style.setProperty(`--${key}`, value);
+  const cssVarName = `--${key.split('_').join('-')}`;
+  document.documentElement.style.setProperty(cssVarName, value);
   });
 }
 
