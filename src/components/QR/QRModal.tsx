@@ -19,6 +19,7 @@ export interface QRModalProps {
 export function QRModal(props: QRModalProps) {
   const fieldValues = useQRScoutState(state => state.fieldValues);
   const formData = useQRScoutState(state => state.formData);
+
   const title = `${getFieldValue('robot')} - M${getFieldValue(
     'matchNumber',
   )}`.toUpperCase();
@@ -27,34 +28,51 @@ export function QRModal(props: QRModalProps) {
     () => fieldValues.map(f => f.value).join(formData.delimiter),
     [fieldValues],
   );
-  //Two seperate values are required- qrCodePreview is what is shown to the user beneath the QR code, qrCodeData is the actual data.
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button disabled={props.disabled}>
+        <Button
+          disabled={props.disabled}
+          className="bg-[hsl(var(--section))] text-[hsl(var(--section-foreground))] hover:opacity-90"
+        >
           <QrCode className="size-5" />
           Commit
         </Button>
       </DialogTrigger>
-      <DialogContent className="h-[95%]">
-        <DialogTitle className="text-3xl text-primary text-center font-rhr-ns tracking-wider ">
+
+      <DialogContent className="h-[95%] bg-[hsl(var(--section))] text-[hsl(var(--section-foreground))]">
+        
+        <DialogTitle className="text-3xl text-center font-rhr-ns tracking-wider">
           {title}
         </DialogTitle>
+
         <div className="flex flex-col items-center gap-6 overflow-y-scroll">
-          <div className="bg-white p-4 rounded-md">
-            <QRCodeSVG className="m-2 mt-4" size={256} value={qrCodeData} />
+          
+          {/* QR code wrapper */}
+          <div className="bg-[hsl(var(--section-foreground))] p-4 rounded-md">
+            <QRCodeSVG
+              className="m-2 mt-4"
+              size={256}
+              value={qrCodeData}
+              fgColor="black"
+              bgColor="white"
+            />
           </div>
+
           <PreviewText data={qrCodeData} />
         </div>
+
         <DialogFooter>
           <Button
             variant="ghost"
             onClick={() => navigator.clipboard.writeText(qrCodeData)}
+            className="text-[hsl(var(--section-foreground))]"
           >
             <Copy className="size-4" /> Copy Data
           </Button>
         </DialogFooter>
+
       </DialogContent>
     </Dialog>
   );

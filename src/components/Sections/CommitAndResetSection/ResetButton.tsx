@@ -46,7 +46,7 @@ export function ResetButton(props: ResetButtonProps) {
             <Button
               variant="outline"
               onClick={onCancel}
-              className="w-full sm:w-auto border-[hsl(var(--section-foreground))] text-[hsl(var(--section-foreground))]"
+              className="w-full sm:w-auto border-[hsl(var(--section))] text-[hsl(var(--section-foreground))]"
             >
               No
             </Button>
