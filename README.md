@@ -18,6 +18,8 @@ A QR Code-based scouting system for FRC
   - [Using Multi-Select Input](#using-multi-select-input)
   - [Using Image Input](#using-image-input)
   - [Using Timer Input](#using-timer-input)
+  - [Using Action Tracker Input](#using-action-tracker-input)
+  - [Using The Blue Alliance (TBA) Integration](#using-the-blue-alliance-tba-integration)
 
 ## Getting started
 
@@ -98,7 +100,7 @@ The basic structure of the config.json file is as follows:
 
 `title`: The name of this field
 
-`type`: One of "text", "number", "boolean", "range", "select", "counter", "timer", "multi-select", or "image". Describes the type of input this is.
+`type`: One of "text", "number", "boolean", "range", "select", "counter", "timer", "multi-select", "image", "action-tracker", "TBA-team-and-robot", or "TBA-match-number". Describes the type of input this is.
 
 `required`: a boolean indicating if this must be filled out before the QRCode is generated. If any field with this set to true is not filled out, QRScout will not generate a QRCode when the commit button is pressed.
 
@@ -368,3 +370,225 @@ This allows scouts to accurately measure and compare the efficiency of different
 3. **Multiple Timers**: Consider using separate timers for different phases or actions
 4. **Backup Method**: Have a secondary way to record time in case of user error
 5. **Practice Before Competition**: Make sure scouts are comfortable using the timer function before actual matches
+
+### Using Action Tracker Input
+
+The action tracker input type allows scouts to record timestamped robot actions during a match. Rather than just counting events, scouts can tap or hold action buttons as they happen, building a timeline of what the robot did and when. This enables analysis of cycle times, action sequences, and phase-specific performance.
+
+#### Configuration in config.json
+
+```json
+{
+  "title": "Auto Actions",
+  "type": "action-tracker",
+  "required": false,
+  "code": "autoAction",
+  "description": "Track robot actions during autonomous",
+  "formResetBehavior": "reset",
+  "mode": "hold",
+  "timerDuration": 15,
+  "actions": [
+    { "label": "Scored", "code": "score", "icon": "target" },
+    { "label": "Picked Up", "code": "pickup", "icon": "package" },
+    { "label": "Missed", "code": "miss", "icon": "x" }
+  ]
+}
+```
+
+#### Action Tracker Properties
+
+- **actions**: An array of action objects, each with:
+  - `label`: Display text for the button
+  - `code`: Unique identifier for this action (used in field names)
+  - `icon` (optional): A [Lucide icon](https://lucide.dev/icons) name to display on the button
+- **mode**: Determines how actions are recorded:
+  - `"tap"`: Records an instant timestamp when the button is tapped. Best for discrete events like scoring or picking up game pieces.
+  - `"hold"`: Records both start and end timestamps while the button is held down. Best for continuous actions like playing defense or climbing. Supports multi-touch for tracking overlapping actions.
+- **timerDuration** (optional): Expected duration in seconds (e.g., 15 for auto, 135 for teleop). Used as a UI reference.
+
+#### Using Action Tracker in the Form
+
+The action tracker provides a timer and a grid of action buttons:
+
+1. **Timer**: Starts automatically when the first action is recorded, or can be started manually
+2. **Action Buttons**: Tap (or hold, depending on mode) to record actions with timestamps
+3. **Undo Button**: Removes the most recent action if recorded in error
+4. **Action Log**: Shows recent actions with their timestamps
+
+#### Data Format
+
+Each action in an action-tracker generates two output columns:
+
+- `{code}_{actionCode}_count`: Integer count of how many times this action occurred
+- `{code}_{actionCode}_times`: Comma-separated timestamps in seconds
+
+For example, an auto tracker with code `autoAct` and a "score" action produces:
+- `autoAct_score_count`: `3`
+- `autoAct_score_times`: `2.1,8.4,12.7`
+
+In hold mode, timestamps are recorded as `start-end` pairs (e.g., `2.1-4.5,8.4-10.2`).
+
+When copying column names, action-tracker fields expand into human-friendly headers like "Scored in Auto (count)" and "Scored in Auto (timestamps)".
+
+#### FRC Scouting Examples
+
+Action trackers are particularly useful for:
+
+- **Scoring Timeline**: Track when and how often a robot scores during each phase
+- **Cycle Time Analysis**: Calculate average time between actions
+- **Defense Tracking**: Record when a robot starts and stops playing defense (using hold mode)
+- **Autonomous Paths**: Understand the sequence of actions during auto
+- **Endgame Timing**: Track climb attempts and timing
+
+For example, to track scoring actions during teleop:
+
+```json
+{
+  "title": "Teleop Scoring",
+  "type": "action-tracker",
+  "required": false,
+  "code": "teleopScore",
+  "mode": "tap",
+  "timerDuration": 135,
+  "actions": [
+    { "label": "Speaker", "code": "speaker", "icon": "volume-2" },
+    { "label": "Amp", "code": "amp", "icon": "zap" },
+    { "label": "Missed", "code": "miss", "icon": "x" }
+  ]
+}
+```
+
+#### Best Practices for Action Tracker
+
+1. **Choose the Right Mode**: Use `tap` for instant events (scoring, intake), use `hold` for duration-based actions (defense, climbing)
+2. **Keep Actions Focused**: Limit each tracker to 4-6 related actions to avoid overwhelming scouts
+3. **Separate Phases**: Use distinct action-trackers for Auto and Teleop to keep data organized
+4. **Use Icons**: Icons help scouts quickly identify buttons during fast-paced matches
+5. **Practice Before Competition**: Ensure scouts are comfortable with the tap/hold interaction before actual matches
+
+### Using The Blue Alliance (TBA) Integration
+
+QRScout includes specialized input types that integrate with The Blue Alliance API to automatically populate match and team data. This integration provides seamless data prefilling for official FRC events.
+
+#### TBA Match Number Input
+
+The `TBA-match-number` input type automatically shows available qualification match numbers when match data is loaded from The Blue Alliance.
+
+##### Configuration in config.json
+
+```json
+{
+  "title": "Match Number",
+  "type": "TBA-match-number",
+  "required": true,
+  "code": "matchNumber",
+  "description": "Select qualification match number",
+  "formResetBehavior": "increment",
+  "defaultValue": 1,
+  "min": 1,
+  "max": 100
+}
+```
+
+##### TBA Match Number Properties
+
+- **defaultValue**: The initial match number (typically 1)
+- **min** (optional): Minimum allowed match number
+- **max** (optional): Maximum allowed match number
+
+##### Using TBA Match Number
+
+When The Blue Alliance match data is available:
+1. The input displays as a dropdown with all available qualification matches
+2. Shows matches in the format "Match 1", "Match 2", etc.
+3. Only qualification matches (`qm`) are displayed
+4. Falls back to a standard number input if no match data is available
+
+#### TBA Team and Robot Input
+
+The `TBA-team-and-robot` input type automatically shows teams and their robot positions for the selected match when connected to The Blue Alliance.
+
+##### Configuration in config.json
+
+```json
+{
+  "title": "Team & Robot Position",
+  "type": "TBA-team-and-robot",
+  "required": true,
+  "code": "teamAndRobot",
+  "description": "Select team and robot position",
+  "formResetBehavior": "reset",
+  "defaultValue": null
+}
+```
+
+##### TBA Team and Robot Properties
+
+- **defaultValue**: The initial team and robot position (typically null)
+
+##### Using TBA Team and Robot
+
+When The Blue Alliance match data is available and a match is selected:
+1. The input displays as a dropdown with all teams from the selected match
+2. Shows teams in the format "Team 2713 (Red 1)", "Team 1234 (Blue 2)", etc.
+3. Automatically extracts both team number and robot position
+4. Falls back to a standard number input for team number if no match data is available
+
+##### Data Format
+
+In the generated QR code, TBA team and robot data is stored as an object:
+```json
+{
+  "teamNumber": 2713,
+  "robotPosition": "R1"
+}
+```
+
+Robot positions are formatted as:
+- Red alliance: "R1", "R2", "R3"
+- Blue alliance: "B1", "B2", "B3"
+
+#### Using The Blue Alliance Integration
+
+1. **Load Match Data**: Click the "Prefill Match Data" button on the main form
+2. **Select Event**: Choose your team's event from the list
+3. **Enhanced Scouting**: TBA inputs will now show contextual data from the selected event
+
+#### FRC Scouting Examples
+
+TBA integration is particularly valuable for:
+
+- **Match Scouting**: Automatically populate which teams are playing in each match
+- **Alliance Analysis**: Understand robot positions and alliance compositions
+- **Schedule Management**: Ensure scouts are tracking the correct matches and teams
+- **Data Validation**: Reduce errors from manually entered team numbers or match numbers
+
+For example, a typical scouting form with TBA integration might include:
+
+```json
+{
+  "sections": [
+    {
+      "name": "Match Info",
+      "fields": [
+        {
+          "title": "Match Number",
+          "type": "TBA-match-number",
+          "required": true,
+          "code": "matchNumber",
+          "formResetBehavior": "increment"
+        },
+        {
+          "title": "Team & Position",
+          "type": "TBA-team-and-robot",
+          "required": true,
+          "code": "teamAndRobot",
+          "formResetBehavior": "reset"
+        }
+      ]
+    }
+  ]
+}
+```
+
+This allows scouts to quickly select the match and automatically see all available teams with their alliance positions, streamlining the data collection process during competition.
