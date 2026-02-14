@@ -12,7 +12,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-  "bg-[hsl(var(--section))] text-[hsl(var(--section_foreground))] shadow hover:opacity-90",
+  'bg-[hsl(var(--section))] text-[hsl(var(--section_foreground))] shadow hover:opacity-90',
 
         destructive:
           'bg-destructive text-destructive-foreground shadow hover:bg-destructive/90',
@@ -28,6 +28,8 @@ const buttonVariants = cva(
 
         link:
           'text-primary underline-offset-4 hover:underline',
+	section:
+  'bg-[hsl(var(--section))] text-[hsl(var(--section-foreground))] shadow hover:opacity-90',
       },
       size: {
         default: 'h-9 px-4 py-2',

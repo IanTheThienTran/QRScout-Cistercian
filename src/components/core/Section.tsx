@@ -7,16 +7,19 @@ type SectionProps = {
 
 export function Section(props: SectionProps) {
   return (
-    <Card className="text-card-foreground">
+    <Card>
       <CardHeader className="pb-2 bg-[hsl(var(--section))] text-[hsl(var(--section-foreground))]">
         {props.title && (
-          <CardTitle className="font-rhr-ns text-card-foreground">
+          <CardTitle className="font-rhr-ns">
             {props.title}
           </CardTitle>
         )}
       </CardHeader>
-      <CardContent className="p-2 pt-0">
-        <div className="flex flex-col gap-4">{props.children}</div>
+
+      <CardContent className="p-2 pt-0 text-foreground">
+        <div className="flex flex-col gap-4">
+          {props.children}
+        </div>
       </CardContent>
     </Card>
   )
