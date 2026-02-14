@@ -66,7 +66,7 @@ export function ConfigSection() {
           variant="secondary"
           onClick={() =>
             navigator.clipboard.writeText(
-              getColumnNames(formData.sections).join('\t'),
+              getColumnNames(formData.sections as any).join('\t'),
             )
           }
           className="text-xs sm:text-sm w-full max-w-[200px]"

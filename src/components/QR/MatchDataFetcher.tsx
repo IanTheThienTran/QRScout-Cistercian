@@ -11,14 +11,7 @@ type MatchDataFetcherProps = {
   className?: string;
 };
 
-/**
- * A self-contained component for fetching and processing match data from The Blue Alliance,
- * including its own button and dialog handling.
- */
-export function MatchDataFetcher({
-  onError,
-  className,
-}: MatchDataFetcherProps) {
+export function MatchDataFetcher({ onError, className }: MatchDataFetcherProps) {
   const [events, setEvents] = useState<EventData[]>([]);
   const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +20,7 @@ export function MatchDataFetcher({
   const fetchEvents = useCallback(async () => {
     try {
       setIsLoading(true);
+
       const teamNumber = formData.teamNumber;
       if (!teamNumber) {
         onError('Team number is required to fetch event data');
@@ -37,7 +31,8 @@ export function MatchDataFetcher({
 
       const result = await fetchTeamEvents(teamNumber, year);
 
-      if (!result.success) {
+      // ✅ TS-safe narrowing (works even if success isn't a discriminant)
+      if ('error' in result) {
         onError(result.error.message);
         return;
       }
@@ -49,10 +44,8 @@ export function MatchDataFetcher({
 
       setEvents(result.data);
       setIsEventDialogOpen(true);
-    } catch (error) {
-      onError(
-        'Failed to fetch event data. Please check your internet connection.',
-      );
+    } catch {
+      onError('Failed to fetch event data. Please check your internet connection.');
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +54,8 @@ export function MatchDataFetcher({
   const handleEventSelected = useCallback(async (eventKey: string) => {
     const result = await fetchEventMatches(eventKey);
 
-    if (!result.success) {
+    // ✅ TS-safe narrowing
+    if ('error' in result) {
       throw new Error(result.error.message);
     }
 
@@ -69,7 +63,6 @@ export function MatchDataFetcher({
       throw new Error('No match data available for this event yet');
     }
 
-    // Store match data and close dialog
     setMatchData(result.data);
     setIsEventDialogOpen(false);
   }, []);

@@ -17,51 +17,45 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 
-interface TBATeamAndRobotData {
+type TBATeamAndRobotData = {
   teamNumber: number;
   robotPosition: string;
-}
+};
 
 export default function TBATeamAndRobotInput(props: ConfigurableInputProps) {
   const data = useQRScoutState(
     inputSelector<TBATeamAndRobotInputData>(props.section, props.code),
   );
+
   const matchData = useQRScoutState(state => state.matchData);
+
   const selectedMatchNumber = useQRScoutState(() => {
-    const value = getFieldValue('matchNumber');
-    return typeof value === 'number' ? value : null;
+    const v = getFieldValue('matchNumber');
+    return typeof v === 'number' ? v : null;
   });
 
-  if (!data) {
-    return <div>Invalid input</div>;
-  }
+  if (!data) return <div>Invalid input</div>;
 
+  // ✅ TS FIX: ensure state is TBATeamAndRobotData | null
   const [value, setValue] = React.useState<TBATeamAndRobotData | null>(
-    data.defaultValue || null,
+    (data.defaultValue as TBATeamAndRobotData) ?? null,
   );
 
-  // Find all team options from the selected match
   const teamOptions = useMemo(() => {
-    if (!matchData || matchData.length === 0 || !selectedMatchNumber) {
-      return [];
-    }
+    if (!matchData || matchData.length === 0 || !selectedMatchNumber) return [];
 
-    // Filter for qualification matches only
     const match = matchData.find(
       m => m.comp_level === 'qm' && m.match_number === selectedMatchNumber,
     );
-
     if (!match) return [];
 
-    // Extract all team numbers from both alliances with their positions
     const teams: Array<{
       teamNumber: number;
       robotPosition: string;
-      alliance: string;
+      alliance: 'Red' | 'Blue';
       position: number;
     }> = [];
 
-    // Red alliance teams
     match.alliances.red.team_keys.forEach((teamKey, index) => {
       const teamNumber = parseInt(teamKey.substring(3));
       if (!isNaN(teamNumber)) {
@@ -74,7 +68,6 @@ export default function TBATeamAndRobotInput(props: ConfigurableInputProps) {
       }
     });
 
-    // Blue alliance teams
     match.alliances.blue.team_keys.forEach((teamKey, index) => {
       const teamNumber = parseInt(teamKey.substring(3));
       if (!isNaN(teamNumber)) {
@@ -93,13 +86,12 @@ export default function TBATeamAndRobotInput(props: ConfigurableInputProps) {
   const resetState = useCallback(
     ({ force }: { force: boolean }) => {
       if (force) {
-        setValue(data.defaultValue || null);
+        setValue((data.defaultValue as TBATeamAndRobotData) ?? null);
         return;
       }
-      if (data.formResetBehavior === 'preserve') {
-        return;
-      }
-      setValue(data.defaultValue || null);
+      if (data.formResetBehavior === 'preserve') return;
+
+      setValue((data.defaultValue as TBATeamAndRobotData) ?? null);
     },
     [data.defaultValue, data.formResetBehavior],
   );
@@ -111,14 +103,14 @@ export default function TBATeamAndRobotInput(props: ConfigurableInputProps) {
   }, [value, props.code]);
 
   const handleSelectChange = useCallback((selectedValue: string) => {
-    const [teamNumber, robotPosition] = selectedValue.split('|');
-    setValue({
-      teamNumber: parseInt(teamNumber),
-      robotPosition,
-    });
+    const [teamNumberStr, robotPosition] = selectedValue.split('|');
+    const teamNumber = parseInt(teamNumberStr);
+    if (isNaN(teamNumber)) return;
+
+    setValue({ teamNumber, robotPosition });
   }, []);
 
-  // Use a dropdown select if we have team options, otherwise use a regular number input
+  // If we have TBA match teams available, show dropdown
   if (teamOptions.length > 0) {
     return (
       <Select
@@ -143,27 +135,29 @@ export default function TBATeamAndRobotInput(props: ConfigurableInputProps) {
     );
   }
 
-  // Fall back to standard number input if no team options are available
+  // Fallback: manual team number entry
   return (
     <Input
       type="number"
-      value={value?.teamNumber || ''}
+      value={value?.teamNumber ?? ''}
       id={data.title}
+      placeholder="Enter team number"
       onChange={e => {
-        const parsed = Number(e.target.value);
-        if (e.target.value === '') {
+        const raw = e.target.value;
+
+        if (raw === '') {
           setValue(null);
           return;
         }
-        if (isNaN(parsed)) {
-          return;
-        }
+
+        const parsed = Number(raw);
+        if (Number.isNaN(parsed)) return;
+
         setValue({
           teamNumber: parsed,
           robotPosition: '',
         });
       }}
-      placeholder="Enter team number"
     />
   );
 }

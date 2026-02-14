@@ -38,7 +38,7 @@ export function App() {
 
   return (
     <StatsigProvider client={client} loadingComponent={<div>Loading...</div>}>
-      <ThemeProvider defaultTheme={config.defaultTheme || 'system'}>
+      <ThemeProvider defaultTheme={(FormData as any).defaultTheme ?? 'system'}>
         <div className="min-h-screen py-2">
           <Header />
           <main className="flex flex-1 flex-col items-center justify-center px-4 text-center">

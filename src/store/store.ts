@@ -1,6 +1,6 @@
 import { produce } from 'immer';
 import { cloneDeep } from 'lodash';
-import configJson from '../../config/config.json'; // <-- YOUR config path
+import configJson from '../../config/config.json'; // keep YOUR config path
 import {
   ActionTrackerInputData,
   Config,
@@ -8,32 +8,25 @@ import {
   InputBase,
 } from '../components/inputs/BaseInputProps';
 import { MatchData } from '../types/matchData';
-import { Result as UpstreamResult } from '../types/result';
 import { createStore } from './createStore';
 
 export type Result<T = void> =
   | { success: true; data?: T }
   | { success: false; error: Error };
 
-// If upstream already has a Result type you want to keep using,
-// you can switch all Result<T> uses to UpstreamResult<T> and delete our Result above.
-// For now, this matches the shape your ConfigEditor expects: result.success + result.error.message
-
-export const isError = (r: Result<any>): r is { success: false; error: Error } =>
-  r.success === false;
+export const isError = (
+  r: Result<any>,
+): r is { success: false; error: Error } => r.success === false;
 
 /**
  * Safe default config (deep clone so we don't mutate imported JSON)
  */
 function getDefaultConfig(): Config {
-  // If your configJson is missing required fields per configSchema,
-  // fix the JSON rather than loosening types.
   return cloneDeep(configJson) as Config;
 }
 
 /**
  * Generates field values for a config, including dynamic fields for action-tracker inputs.
- * For action-tracker, creates _count and _times fields for each action.
  */
 function generateFieldValues(config: Config): { code: string; value: any }[] {
   const fieldValues: { code: string; value: any }[] = [];
@@ -69,23 +62,43 @@ export interface QRScoutState {
   fieldValues: { code: string; value: any }[];
   showQR: boolean;
   matchData?: MatchData[];
+
+  // ✅ app.tsx expects these:
+  config: Config;
+  loadConfig: () => void;
 }
 
 const initialConfig = getDefaultConfig();
 
 const initialState: QRScoutState = {
   formData: initialConfig,
+  config: initialConfig,
   fieldValues: generateFieldValues(initialConfig),
   showQR: false,
+  matchData: undefined,
+  loadConfig: () => {}, // will be overwritten right after store creation
 };
 
-export const useQRScoutState = createStore(initialState);
+// ✅ createStore needs a name (your error said so)
+export const useQRScoutState = createStore(initialState, 'qrscout');
+
+// ✅ now define loadConfig in the real store
+useQRScoutState.setState(state => ({
+  ...state,
+  loadConfig: () => {
+    const cfg = getDefaultConfig();
+    setFormData(cfg);
+    useQRScoutState.setState({ config: cfg });
+  },
+}));
 
 /**
  * Read a field value by code
  */
 export function getFieldValue(code: string) {
-  return useQRScoutState.getState().fieldValues.find(f => f.code === code)?.value;
+  return useQRScoutState
+    .getState()
+    .fieldValues.find(f => f.code === code)?.value;
 }
 
 /**
@@ -95,11 +108,8 @@ export function updateValue(code: string, value: any) {
   useQRScoutState.setState(
     produce((state: QRScoutState) => {
       const existing = state.fieldValues.find(f => f.code === code);
-      if (existing) {
-        existing.value = value;
-      } else {
-        state.fieldValues.push({ code, value });
-      }
+      if (existing) existing.value = value;
+      else state.fieldValues.push({ code, value });
     }),
   );
 }
@@ -157,19 +167,20 @@ export function getConfig() {
 
 /**
  * Parse + validate config JSON, then apply
- * ConfigEditor expects: { success: true } OR { success:false, error: Error }
  */
 export function setConfig(configText: string): Result<void> {
   let jsonData: any;
   try {
     jsonData = JSON.parse(configText);
   } catch (e: any) {
-    return { success: false, error: e instanceof Error ? e : new Error(String(e)) };
+    return {
+      success: false,
+      error: e instanceof Error ? e : new Error(String(e)),
+    };
   }
 
   const parsed = configSchema.safeParse(jsonData);
   if (!parsed.success) {
-    // parsed.error is a ZodError; wrap to ensure .message exists
     return { success: false, error: new Error(parsed.error.message) };
   }
 
@@ -184,12 +195,17 @@ export async function fetchConfigFromURL(url: string): Promise<Result<void>> {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Failed to fetch config from URL: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch config from URL: ${response.status} ${response.statusText}`,
+      );
     }
     const configText = await response.text();
     return setConfig(configText);
   } catch (error: any) {
-    return { success: false, error: error instanceof Error ? error : new Error(String(error)) };
+    return {
+      success: false,
+      error: error instanceof Error ? error : new Error(String(error)),
+    };
   }
 }
 
@@ -197,7 +213,9 @@ export async function fetchConfigFromURL(url: string): Promise<Result<void>> {
  * Reset config to default JSON
  */
 export function resetToDefaultConfig(): Result<void> {
-  setFormData(getDefaultConfig());
+  const cfg = getDefaultConfig();
+  setFormData(cfg);
+  useQRScoutState.setState({ config: cfg });
   return { success: true };
 }
 
