@@ -44,7 +44,6 @@ export function ResetButton(props: ResetButtonProps) {
 
           <div className="flex justify-end gap-2 mt-4">
             <Button
-              variant="outline"
               onClick={onCancel}
             className="w-full sm:w-auto bg-[hsl(var(--section))] text-[hsl(var(--section-foreground))] hover:opacity-90"
             >
