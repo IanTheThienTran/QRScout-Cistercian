@@ -152,29 +152,7 @@
         {
             "name": "Autonomous",
             "fields": [
-                {
-                    "title": "Actions",
-                    "description": "Track actions performed during autonomous.",
-                    "type": "action-tracker",
-                    "required": false,
-                    "code": "autoActions",
-                    "formResetBehavior": "reset",
-                    "defaultValue": null,
-                    "mode": "hold",
-                    "timerDuration": 15,
-                    "actions": [
-                        { "label": "Scoring", "code": "scoring" },
-                        { "label": "Depot Collect", "code": "depot_collect" },
-                        { "label": "Outpost Collect", "code": "outpost_collect" },
-                        { "label": "Ground Collect", "code": "ground_collect" },
-                        { "label": "Passing", "code": "passing" },
-                        { "label": "Faffing/Stuck on Fuel", "code": "faffing" },
-                        { "label": "Climbing", "code": "climbing" },
-                        { "label": "Bump", "code": "bump" },
-                        { "label": "Trench", "code": "trench" }
-                    ]
-                },
-                {
+                               {
                     "title": "Climbed",
                     "description": "Did the robot climb during autonomous?",
                     "type": "select",
@@ -228,30 +206,7 @@
                     "formResetBehavior": "reset",
                     "defaultValue": false
                 },
-                {
-                    "title": "Actions",
-                    "description": "Track actions performed during teleop.",
-                    "type": "action-tracker",
-                    "required": false,
-                    "code": "teleopActions",
-                    "formResetBehavior": "reset",
-                    "defaultValue": null,
-                    "mode": "hold",
-                    "timerDuration": 135,
-                    "actions": [
-                        { "label": "Scoring", "code": "scoring" },
-                        { "label": "Depot Collect", "code": "depot_collect" },
-                        { "label": "Outpost Collect", "code": "outpost_collect" },
-                        { "label": "Ground Collect", "code": "ground_collect" },
-                        { "label": "Bump", "code": "bump" },
-                        { "label": "Trench", "code": "trench" },
-                        { "label": "Passing", "code": "passing" },
-                        { "label": "Climbing", "code": "climbing" },
-                        { "label": "Defense", "code": "defense" },
-                        { "label": "Faffing/Stuck on Fuel", "code": "faffing" }
-                    ]
-                },
-                {
+                                {
                     "title": "Crossed into opposite zone?",
                     "description": "Did the robot cross into the opposing alliance's zone?",
                     "type": "boolean",
