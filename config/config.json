@@ -180,18 +180,7 @@
                         "Mid": "Middle",
                         "Dep": "Depot Side"
                     }
-                },
-                {
-                    "title": "Fuel Scored in Auto?",
-                    "description": "The number of fuel scored in autonomous.",
-                    "type": "counter",
-                    "required": false,
-                    "code": "autoFuelScored",
-                    "formResetBehavior": "reset",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "step": 1
-                }
+                }  
             ]
         },
         {
@@ -206,7 +195,7 @@
                     "formResetBehavior": "reset",
                     "defaultValue": false
                 },
-                                {
+                               {
                     "title": "Crossed into opposite zone?",
                     "description": "Did the robot cross into the opposing alliance's zone?",
                     "type": "boolean",
