@@ -20,14 +20,39 @@ export function QRModal(props: QRModalProps) {
   const fieldValues = useQRScoutState(state => state.fieldValues);
   const formData = useQRScoutState(state => state.formData);
 
-  const title = `${getFieldValue('robot')} - M${getFieldValue(
-    'matchNumber',
-  )}`.toUpperCase();
+  // Format robot for title
+  const robot = getFieldValue('robot') as any;
 
-  const qrCodeData = useMemo(
-    () => fieldValues.map(f => f.value).join(formData.delimiter),
-    [fieldValues],
-  );
+  const robotTitle =
+    robot && typeof robot === 'object'
+      ? `${robot.team ?? robot.teamNumber ?? ''}-${robot.robot ?? robot.position ?? ''}`
+      : String(robot ?? '');
+
+  const title = `${robotTitle} - M${getFieldValue('matchNumber')}`.toUpperCase();
+
+  const qrCodeData = useMemo(() => {
+    const encodeValue = (code: string, value: unknown) => {
+      if (value == null) return '';
+
+      // Special handling for robot object
+      if (code === 'robot' && typeof value === 'object') {
+        const r = value as any;
+        const team = r.team ?? r.teamNumber ?? '';
+        const pos = r.robot ?? r.position ?? r.station ?? '';
+        return `${team}-${pos}`.replace(/^-|-$/g, '');
+      }
+
+      if (typeof value === 'object') {
+        return JSON.stringify(value);
+      }
+
+      return String(value);
+    };
+
+    return fieldValues
+      .map(f => encodeValue(f.code, f.value))
+      .join(formData.delimiter);
+  }, [fieldValues, formData.delimiter]);
 
   return (
     <Dialog>
@@ -49,7 +74,6 @@ export function QRModal(props: QRModalProps) {
 
         <div className="flex flex-col items-center gap-6 overflow-y-scroll">
           
-          {/* QR code wrapper */}
           <div className="bg-[hsl(var(--section))] p-4 rounded-md">
             <QRCodeSVG
               className="m-2 mt-4"

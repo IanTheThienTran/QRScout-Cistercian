@@ -152,17 +152,20 @@
         {
             "name": "Autonomous",
             "fields": [
-                               {
+                                  {
                     "title": "Climbed",
-                    "description": "Did the robot climb during autonomous?",
+                    "description": "The level the robot climbed during autonomous.",
                     "type": "select",
-                    "required": false,
-                    "code": "autoClimbed",
+                    "required": true,
+                    "code": "climbed",
                     "formResetBehavior": "reset",
                     "defaultValue": "No",
                     "choices": {
                         "No": "No Climb",
-                        "Yes": "Climb",
+                        "L1": "Level 1",
+                        "L2": "Level 2",
+			"L2s":"Stopped at Level 2",
+                        "L3": "Level 3",
                         "F": "Failed Climb"
                     }
                 },
@@ -176,9 +179,9 @@
                     "defaultValue": "No",
                     "choices": {
                         "No": "No Climb",
-                        "Out": "Output Side",
+                        "Left": "Left Side",
                         "Mid": "Middle",
-                        "Dep": "Depot Side"
+                        "Right": "Right Side"
                     }
                 }  
             ]
@@ -195,17 +198,8 @@
                     "formResetBehavior": "reset",
                     "defaultValue": false
                 },
-                               {
-                    "title": "Crossed into opposite zone?",
-                    "description": "Did the robot cross into the opposing alliance's zone?",
-                    "type": "boolean",
-                    "required": false,
-                    "code": "crossedZone",
-                    "formResetBehavior": "reset",
-                    "defaultValue": false
-                },
                 {
-                    "title": "Defended during match?",
+                    "title": "Played Defense?",
                     "description": "Did the robot play defense during the match?",
                     "type": "boolean",
                     "required": false,
@@ -250,30 +244,31 @@
                     "description": "The level the robot climbed during endgame.",
                     "type": "select",
                     "required": true,
-                    "code": "climbed",
+                    "code": "endclimbed",
                     "formResetBehavior": "reset",
                     "defaultValue": "No",
                     "choices": {
                         "No": "No Climb",
                         "L1": "Level 1",
                         "L2": "Level 2",
+			"L2s":"Stopped at Level 2",
                         "L3": "Level 3",
                         "F": "Failed Climb"
                     }
                 },
                 {
                     "title": "Where Climbed",
-                    "description": "Where on the tower did the robot climb?",
+                    "description": "Where on the tower did the robot climb in autonomous?",
                     "type": "select",
                     "required": false,
-                    "code": "climbPos",
+                    "code": "endClimbPos",
                     "formResetBehavior": "reset",
                     "defaultValue": "No",
                     "choices": {
                         "No": "No Climb",
-                        "Out": "Output Side",
+                        "Left": "Left Side",
                         "Mid": "Middle",
-                        "Dep": "Depot Side"
+                        "Right": "Right Side"
                     }
                 }
             ]
@@ -294,20 +289,13 @@
                     "step": 1
                 },
                 {
-                    "title": "Scored How?",
-                    "description": "How did the robot score?",
-                    "type": "select",
+                    "title": "Shoot on the Move?",
+                    "description": "Did the Robot Shoot While Moving During the Match?",
+                    "type": "boolean",
                     "required": false,
-                    "code": "scoredHow",
+                    "code": "ShootOnMove",
                     "formResetBehavior": "reset",
-                    "defaultValue": "blank",
-                    "choices": {
-                        "blank": "(blank)",
-                        "driving": "While driving",
-                        "stationary": "While stationary",
-                        "both": "Both",
-                        "none": "No scoring"
-                    }
+                    "defaultValue": false
                 },
                 {
                     "title": "Passing Skill",
@@ -320,22 +308,6 @@
                     "min": 0,
                     "max": 5,
                     "step": 1
-                },
-                {
-                    "title": "Passed How?",
-                    "description": "How did the robot pass?",
-                    "type": "select",
-                    "required": false,
-                    "code": "passedHow",
-                    "formResetBehavior": "reset",
-                    "defaultValue": "blank",
-                    "choices": {
-                        "blank": "(blank)",
-                        "driving": "While driving",
-                        "stationary": "While stationary",
-                        "both": "Both",
-                        "none": "No Passing"
-                    }
                 },
                 {
                     "title": "Passing Location?",
