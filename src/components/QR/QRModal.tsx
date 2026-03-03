@@ -50,7 +50,7 @@ export function QRModal(props: QRModalProps) {
         <div className="flex flex-col items-center gap-6 overflow-y-scroll">
           
           {/* QR code wrapper */}
-          <div className="bg-[hsl(var(--section-foreground))] p-4 rounded-md">
+          <div className="bg-[hsl(var(--section))] p-4 rounded-md">
             <QRCodeSVG
               className="m-2 mt-4"
               size={256}
