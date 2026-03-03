@@ -152,6 +152,16 @@
         {
             "name": "Autonomous",
             "fields": [
+ {
+                    "title": "Did Something in Auto?",
+                    "description": "Did your alliance accomplish anything during Auto?",
+                    "type": "boolean",
+                    "required": false,
+                    "code": "allianceDidSomething",
+                    "formResetBehavior": "reset",
+                    "defaultValue": false
+                },
+
                                   {
                     "title": "Climbed",
                     "description": "The level the robot climbed during autonomous.",
