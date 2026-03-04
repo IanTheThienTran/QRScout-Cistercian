@@ -174,9 +174,8 @@
                         "No": "No Climb",
                         "L1": "Level 1",
                         "L2": "Level 2",
-			"L2s":"Stopped at Level 2",
                         "L3": "Level 3",
-                        "F": "Failed Climb"
+                        "Fell": "Fell off Tower"
                     }
                 },
                 {
@@ -258,12 +257,11 @@
                     "formResetBehavior": "reset",
                     "defaultValue": "No",
                     "choices": {
-                        "No": "No Climb",
+                 	 "No": "No Climb",
                         "L1": "Level 1",
                         "L2": "Level 2",
-			"L2s":"Stopped at Level 2",
                         "L3": "Level 3",
-                        "F": "Failed Climb"
+                        "Fell": "Fell off Tower"
                     }
                 },
                 {
