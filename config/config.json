@@ -161,6 +161,20 @@
                     "formResetBehavior": "reset",
                     "defaultValue": false
                 },
+ {
+                    "title": "Climbed",
+                    "description": "The level the robot climbed during endgame.",
+                    "type": "select",
+                    "required": true,
+                    "code": "autoclimbed",
+                    "formResetBehavior": "reset",
+                    "defaultValue": "No",
+                    "choices": {
+                 	 "No": "No Climb",
+                        "L1": "Level 1",
+                        "Fell": "Fell off Tower"
+                    }
+                },
 
                                   {
                     "title": "Climbed",
@@ -248,20 +262,23 @@
         {
             "name": "Endgame",
             "fields": [
-                {
+  {
                     "title": "Climbed",
-                    "description": "The level the robot climbed during endgame.",
+                    "description": "The level the robot climbed during autonomous.",
                     "type": "select",
                     "required": true,
                     "code": "endclimbed",
                     "formResetBehavior": "reset",
                     "defaultValue": "No",
                     "choices": {
-                 	 "No": "No Climb",
+                        "No": "No Climb",
                         "L1": "Level 1",
+                        "L2": "Level 2",
+                        "L3": "Level 3",
                         "Fell": "Fell off Tower"
                     }
                 },
+               
                 {
                     "title": "Where Climbed",
                     "description": "Where on the tower did the robot climb in autonomous?",
