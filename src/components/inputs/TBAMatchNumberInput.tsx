@@ -43,19 +43,33 @@ export default function TBAMatchNumberInput(props: ConfigurableInputProps) {
     return [...new Set(matchNumbers)];
   }, [matchData]);
 
-  const resetState = useCallback(
-    ({ force }: { force: boolean }) => {
-      if (force) {
-        setValue(data.defaultValue);
-        return;
-      }
-      if (data.formResetBehavior === 'preserve') {
-        return;
-      }
+ const resetState = useCallback(
+  ({ force }: { force: boolean }) => {
+    if (force) {
       setValue(data.defaultValue);
-    },
-    [data.defaultValue, data.formResetBehavior],
-  );
+      return;
+    }
+
+    if (data.formResetBehavior === 'preserve') return;
+
+    if (data.formResetBehavior === 'increment') {
+      setValue(prev => {
+        // prev can be number or '' in your state type
+        const prevNum = typeof prev === 'number' ? prev : null;
+
+        // defaultValue might be number or '' depending on config typing
+        const defNum = typeof data.defaultValue === 'number' ? data.defaultValue : 1;
+
+        return (prevNum ?? defNum) + 1;
+      });
+      return;
+    }
+
+    // default reset behavior
+    setValue(data.defaultValue);
+  },
+  [data.defaultValue, data.formResetBehavior],
+);
 
   useEvent('resetFields', resetState);
 

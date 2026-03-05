@@ -117,7 +117,7 @@
                     "type": "TBA-team-and-robot",
                     "required": true,
                     "code": "robot",
-                    "formResetBehavior": "preserve",
+                    "formResetBehavior": "reset",
                     "defaultValue": null
                 },
                 {
@@ -259,8 +259,6 @@
                     "choices": {
                  	 "No": "No Climb",
                         "L1": "Level 1",
-                        "L2": "Level 2",
-                        "L3": "Level 3",
                         "Fell": "Fell off Tower"
                     }
                 },
