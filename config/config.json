@@ -204,7 +204,6 @@
                     "formResetBehavior": "reset",
                     "defaultValue": false
                 },
-                
                 {
                     "title": "Played Defense?",
                     "description": "Did the robot play defense during the match?",
@@ -213,6 +212,17 @@
                     "code": "robotDefended",
                     "formResetBehavior": "reset",
                     "defaultValue": false
+                },
+                {
+                    "title": "Volleys of fuel shot",
+                    "description": "The number of discrete scoring volleys(a period of shooting before having to intake again)",
+                    "type": "counter",
+                    "required": false,
+                    "code": "teleFuelShot",
+                    "formResetBehavior": "reset",
+                    "defaultValue": 0,
+                    "min": 0,
+                    "step": 1
                 },
                 {
                     "title": "Mechanical Issue?",
