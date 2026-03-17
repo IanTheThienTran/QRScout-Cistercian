@@ -175,23 +175,6 @@
                         "Fell": "Fell off Tower"
                     }
                 },
-
-                                  {
-                    "title": "Climbed",
-                    "description": "The level the robot climbed during autonomous.",
-                    "type": "select",
-                    "required": true,
-                    "code": "climbed",
-                    "formResetBehavior": "reset",
-                    "defaultValue": "No",
-                    "choices": {
-                        "No": "No Climb",
-                        "L1": "Level 1",
-                        "L2": "Level 2",
-                        "L3": "Level 3",
-                        "Fell": "Fell off Tower"
-                    }
-                },
                 {
                     "title": "Where Climbed",
                     "description": "Where on the tower did the robot climb in autonomous?",
@@ -221,6 +204,7 @@
                     "formResetBehavior": "reset",
                     "defaultValue": false
                 },
+                
                 {
                     "title": "Played Defense?",
                     "description": "Did the robot play defense during the match?",
