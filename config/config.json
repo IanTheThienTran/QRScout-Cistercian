@@ -91,64 +91,71 @@
     ,
     "sections": [
         {
-            "name": "Prematch",
-            "fields": [
-                {
-                    "title": "Scouter Initials",
-                    "description": "Enter the initials of the scouter.",
-                    "type": "text",
-                    "required": true,
-                    "code": "scouter",
-                    "formResetBehavior": "preserve",
-                    "defaultValue": ""
-                },
-                {
-                    "title": "Match Number",
-                    "description": "Select the match number.",
-                    "type": "TBA-match-number",
-                    "required": true,
-                    "code": "matchNumber",
-                    "formResetBehavior": "increment",
-                    "defaultValue": 1
-                },
-                {
-                    "title": "Team and Robot",
-                    "description": "Select the team and robot position you are scouting.",
-                    "type": "TBA-team-and-robot",
-                    "required": true,
-                    "code": "robot",
-                    "formResetBehavior": "reset",
-                    "defaultValue": null
-                },
-                {
-                    "title": "Starting Position",
-                    "description": "The starting position of the robot.",
-                    "type": "select",
-                    "required": true,
-                    "code": "startPos",
-                    "formResetBehavior": "reset",
-                    "defaultValue": "",
-                    "choices": {
-                        "OT": "Outpost Trench",
-                        "OBFT": "Outpost Bump Favoring Trench",
-                        "OBFH": "Outpost Bump Favoring Hub",
-                        "H": "Hub",
-                        "DBFH": "Depot Bump Favoring Hub",
-                        "DBFT": "Depot Bump Favoring Trench",
-                        "DT": "Depot Trench"
-                    }
-                },
-                {
-                    "title": "No Show",
-                    "description": "Check if the robot did not show up for the match.",
-                    "type": "boolean",
-                    "required": false,
-                    "code": "noShow",
-                    "formResetBehavior": "reset",
-                    "defaultValue": false
-                }
-            ]
-        },
+  "name": "Prematch",
+  "fields": [
+    {
+      "title": "Scouter Initials",
+      "description": "Enter the initials of the scouter.",
+      "type": "text",
+      "required": true,
+      "code": "scouter",
+      "formResetBehavior": "preserve",
+      "defaultValue": ""
+    },
+    {
+      "title": "Match Number",
+      "description": "Select the match number.",
+      "type": "TBA-match-number",
+      "required": true,
+      "code": "matchNumber",
+      "formResetBehavior": "increment",
+      "defaultValue": 1
+    },
+    {
+      "title": "Team and Robot",
+      "description": "Select the team and robot position you are scouting.",
+      "type": "TBA-team-and-robot",
+      "required": true,
+      "code": "robot",
+      "formResetBehavior": "reset",
+      "defaultValue": null
+    },
+   {
+  "title": "Starting Position",
+  "description": "The starting position of the robot.",
+  "type": "select",
+  "required": true,
+  "code": "startPos",
+  "formResetBehavior": "reset",
+  "defaultValue": "",
+  "choices": {
+    "R1": "R1",
+    "R2": "R2",
+    "R3": "R3",
+    "R4": "R4",
+    "R5": "R5",
+    "R6": "R6",
+    "R7": "R7",
+    "B1": "B1",
+    "B2": "B2",
+    "B3": "B3",
+    "B4": "B4",
+    "B5": "B5",
+    "B6": "B6",
+    "B7": "B7"
+  }
+},
+    {
+      "title": "No Show",
+      "description": "Check if the robot did not show up for the match.",
+      "type": "boolean",
+      "required": false,
+      "code": "noShow",
+      "formResetBehavior": "reset",
+      "defaultValue": false
+    }
+  ]
+},
         {
             "name": "Autonomous",
             "fields": [
