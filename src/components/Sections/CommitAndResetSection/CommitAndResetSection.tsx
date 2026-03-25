@@ -1,12 +1,13 @@
 import { QRModal } from '@/components/QR';
 import { useMemo } from 'react';
-import { useQRScoutState } from '../../../store/store';
+import { getFieldValue, useQRScoutState } from '../../../store/store';
 import { Section } from '../../core/Section';
 import { ResetButton } from './ResetButton';
 
 export function CommitAndResetSection() {
   const formData = useQRScoutState(state => state.formData);
   const fieldValues = useQRScoutState(state => state.fieldValues);
+  useQRScoutState(state => state.fieldValues);
 
   const requiredFields = useMemo(() => {
     return formData.sections
@@ -20,11 +21,15 @@ export function CommitAndResetSection() {
     return fieldValues
       .filter(f => requiredFields.includes(f.code))
       .some(f => f.value === undefined || f.value === '' || f.value === null);
-  }, [formData, fieldValues]);
+  }, [requiredFields, fieldValues]);
+
+  const noShow = Boolean(getFieldValue('noShow'));
+
+  const qrDisabled = missingRequiredFields && !noShow;
 
   return (
     <Section>
-      <QRModal disabled={missingRequiredFields} />
+      <QRModal disabled={qrDisabled} />
       <ResetButton />
     </Section>
   );
