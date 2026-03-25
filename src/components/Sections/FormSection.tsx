@@ -32,21 +32,21 @@ export default function FormSection(props: FormSectionProps) {
   };
 
   const hotspots: Hotspot[] = [
-    { key: 'R1', value: 'R1', left: '35%', top: '12%' },
-    { key: 'R2', value: 'R2', left: '24%', top: '38%' },
-    { key: 'R3', value: 'R3', left: '24%', top: '40%' },
-    { key: 'R4', value: 'R4', left: '24%', top: '52%' },
-    { key: 'R5', value: 'R5', left: '24%', top: '64%' },
-    { key: 'R6', value: 'R6', left: '24%', top: '76%' },
-    { key: 'R7', value: 'R7', left: '35%', top: '88%' },
+    { key: 'R1', value: 'R1', left: '32.5%', top: '12%' },
+    { key: 'R2', value: 'R2', left: '28%', top: '20%' },
+    { key: 'R3', value: 'R3', left: '28%', top: '35%' },
+    { key: 'R4', value: 'R4', left: '28%', top: '51%' },
+    { key: 'R5', value: 'R5', left: '28%', top: '63%' },
+    { key: 'R6', value: 'R6', left: '28%', top: '75%' },
+    { key: 'R7', value: 'R7', left: '32.5%', top: '88%' },
 
-    { key: 'B7', value: 'B7', left: '63%', top: '12%' },
-    { key: 'B6', value: 'B6', left: '68%', top: '38%' },
-    { key: 'B5', value: 'B5', left: '68%', top: '40%' },
-    { key: 'B4', value: 'B4', left: '68%', top: '52%' },
-    { key: 'B3', value: 'B3', left: '68%', top: '64%' },
-    { key: 'B2', value: 'B2', left: '68%', top: '76%' },
-    { key: 'B1', value: 'B1', left: '63%', top: '88%' },
+    { key: 'B7', value: 'B7', left: '64%', top: '12%' },
+    { key: 'B6', value: 'B6', left: '68.5%', top: '20%' },
+    { key: 'B5', value: 'B5', left: '68.5%', top: '35%' },
+    { key: 'B4', value: 'B4', left: '68.5%', top: '51%' },
+    { key: 'B3', value: 'B3', left: '68.5%', top: '63%' },
+    { key: 'B2', value: 'B2', left: '68.5%', top: '75%' },
+    { key: 'B1', value: 'B1', left: '64%', top: '88%' },
   ];
 
   return (
