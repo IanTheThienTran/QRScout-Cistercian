@@ -32,21 +32,21 @@ export default function FormSection(props: FormSectionProps) {
   };
 
   const hotspots: Hotspot[] = [
-    { key: 'R1', value: 'R1', left: '28%', top: '8%' },
+    { key: 'R1', value: 'R1', left: '28%', top: '10%' },
     { key: 'R2', value: 'R2', left: '24%', top: '18%' },
     { key: 'R3', value: 'R3', left: '24%', top: '30%' },
     { key: 'R4', value: 'R4', left: '24%', top: '42%' },
     { key: 'R5', value: 'R5', left: '24%', top: '54%' },
     { key: 'R6', value: 'R6', left: '24%', top: '66%' },
-    { key: 'R7', value: 'R7', left: '28%', top: '78%' },
+    { key: 'R7', value: 'R7', left: '28%', top: '85%' },
 
-    { key: 'B7', value: 'B7', left: '64%', top: '8%' },
+    { key: 'B7', value: 'B7', left: '64%', top: '10%' },
     { key: 'B6', value: 'B6', left: '68%', top: '18%' },
     { key: 'B5', value: 'B5', left: '68%', top: '30%' },
     { key: 'B4', value: 'B4', left: '68%', top: '42%' },
     { key: 'B3', value: 'B3', left: '68%', top: '54%' },
     { key: 'B2', value: 'B2', left: '68%', top: '66%' },
-    { key: 'B1', value: 'B1', left: '64%', top: '78%' },
+    { key: 'B1', value: 'B1', left: '64%', top: '85%' },
   ];
 
   return (
@@ -85,11 +85,13 @@ export default function FormSection(props: FormSectionProps) {
                         type="button"
                         onClick={() => handleSelect(spot.value)}
                         title={spot.key}
-                        className={`absolute rounded-full transition ${
-                          selected
-                            ? 'border-2 border-green-500 bg-green-500/40'
-                            : 'border-2 border-transparent bg-transparent hover:border-white'
-                        }`}
+                       className={`absolute rounded-full transition ${
+  selected
+    ? 'border-2 border-green-500 bg-green-500/50'
+    : spot.key.startsWith('R')
+      ? 'border-2 border-red-500 bg-red-500/20 hover:bg-red-500/40'
+      : 'border-2 border-blue-500 bg-blue-500/20 hover:bg-blue-500/40'
+}`}
                         style={{
                           left: spot.left,
                           top: spot.top,
