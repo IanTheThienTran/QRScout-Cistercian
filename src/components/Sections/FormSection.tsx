@@ -96,7 +96,7 @@ export default function FormSection(props: FormSectionProps) {
                           left: spot.left,
                           top: spot.top,
                           width: '6%',
-                          height: '8%',
+                          height: '9.5%',
                           transform: 'translate(-50%, -50%)',
                         }}
                       />
